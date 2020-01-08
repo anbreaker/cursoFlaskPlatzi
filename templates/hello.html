@@ -1,0 +1,11 @@
+{% if userIp %}
+<h1>Hello world desde Flask, tu ip es: {{ userIp }}</h1>
+{% else %}
+<a href="{{ url_for('index') }}">Ir a Inicio</a>
+{% endif %}
+
+<ul>
+    {%for todo in toDos %} 
+        <li>{{todo}}</li>
+    {% endfor %}
+</ul>

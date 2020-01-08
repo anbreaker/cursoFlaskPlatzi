@@ -29,11 +29,18 @@ export FLASK_APP=main.py
 #Para comprobar funcionamiento correcto nos debe devolver la instancia de flask
 echo $FLASK_APP
 
-#Arrancar nuestro servidor: (Para seleccionar el puerto colocar las opciones)
-flask run --port=5002
-
 #Variable de entorno modo debug
 export FLASK_DEBUG=1
 echo $FLASK_DEBUG
+
+#Arrancar nuestro servidor: (Para seleccionar el puerto colocar las opciones)
+flask run --port=5002
+
+#Para saber que puertos tienes abiertos con el nmap:
+nmap localhost
+
+#Para cerrar algún puerto:
+fuser -k "NºPuerto"/tcp
+
 
 
