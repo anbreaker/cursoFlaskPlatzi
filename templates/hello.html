@@ -1,11 +1,21 @@
-{% if userIp %}
-<h1>Hello world desde Flask, tu ip es: {{ userIp }}</h1>
-{% else %}
-<a href="{{ url_for('index') }}">Ir a Inicio</a>
-{% endif %}
+{%extends 'base.html' %}
+{%import 'macros.html' as macros %}
 
-<ul>
-    {%for todo in toDos %} 
-        <li>{{todo}}</li>
-    {% endfor %}
-</ul>
+{% block title %}
+    {{super()}}
+    Bienvenido
+{% endblock %}
+
+{% block content %}
+    {% if userIp %}
+        <h1>Hello world desde Flask, tu ip es: {{ userIp }}</h1>
+    {% else %}
+        <a href="{{ url_for('index') }}">Ir a Inicio</a>
+    {% endif %}
+
+    <ul>
+        {%for todo in toDos %}
+            {{macros.render_todo(todo)}}
+        {% endfor %}
+    </ul>
+{% endblock %}
