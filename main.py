@@ -1,10 +1,13 @@
-from flask import Flask, request, make_response, redirect, render_template
+from flask import Flask, request, make_response, redirect, render_template, session
 from flask_bootstrap import Bootstrap
 
 
 app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
+
+#Configuracion segura de la app flask
+app.config['SECRET_KEY'] = 'SUPER SECRETO'
 
 toDos = ['Tarea 1', 'Tarea 2', 'Tarea 3']
 
@@ -24,7 +27,8 @@ def index():
     userIp = request.remote_addr
 
     response = make_response(redirect('/hello'))
-    response.set_cookie('userIp', userIp)
+    # response.set_cookie('userIp', userIp)
+    session['userIp']= userIp
 
     return response 
 
@@ -32,7 +36,8 @@ def index():
 # decorador de python
 @app.route('/hello')
 def hello():
-    userIp = request.cookies.get('userIp')
+    # userIp = request.cookies.get('userIp')
+    userIp = session.get('userIp')
     context = {
         'userIp': userIp,
         'toDos': toDos
