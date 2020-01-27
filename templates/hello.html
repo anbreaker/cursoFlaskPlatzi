@@ -4,20 +4,23 @@
 
 {% block title %}
     {{super()}}
-    Bienvenido
+    Bienvenido:
 {% endblock %}
 
 {% block content %}
+    {% if userName %}
+        <h1>Bienvenido: {{ userName | capitalize }}</h1>
+    {% endif %}
     {% if userIp %}
-        <h1>Hello world desde Flask, tu ip es: {{ userIp }}</h1>
+        <h3>Hello world desde Flask, tu ip es: {{ userIp }}</h3>
     {% else %}
         <a href="{{ url_for('index') }}">Ir a Inicio</a>
     {% endif %}
 
     <div class="container">
         <!--<form action="{{ url_for('hello')}}" method="POST">-->
-            <!--{{ login_form.username }}-->
-            <!--{{ login_form.username.label }}-->
+            <!--{{ login_form.userName }}-->
+            <!--{{ login_form.userName.label }}-->
         <!--</form>-->
         {{ wtf.quick_form(login_form) }}
     </div>

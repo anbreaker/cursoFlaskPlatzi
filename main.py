@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, redirect, render_template, session
+from flask import Flask, request, make_response, redirect, render_template, session, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField, SubmitField
@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'SUPER SECRETO'
 toDos = ['Tarea 1', 'Tarea 2', 'Tarea 3']
 
 class LoginForm(FlaskForm):
-    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    userName = StringField('Nombre de usuario', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Enviar')
 
@@ -41,16 +41,27 @@ def index():
 
 
 # decorador de python
-@app.route('/hello')
+@app.route('/hello', methods=['GET', 'POST'])
 def hello():
     # userIp = request.cookies.get('userIp')
     userIp = session.get('userIp')
     login_form = LoginForm()
+    userName = session.get('userName')
+    
     context = {
         'userIp': userIp,
         'toDos': toDos,
-        'login_form': login_form
+        'login_form': login_form,
+        'userName': userName
     }
+    
+    if login_form.validate_on_submit():
+        userName = login_form.userName.data
+        session['userName'] = userName
+        
+        flash('Nombre de usuario registrado!')
+        
+        return redirect(url_for('index'))
 
     # return f'Hello world Flask tu ip es: {userIp}'
     return render_template('/hello.html', **context)
